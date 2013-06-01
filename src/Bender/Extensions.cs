@@ -81,5 +81,10 @@ namespace Bender
         {
             return string.Format(value, args);
         }
+
+        public static TResult Map<TSource, TResult>(this TSource source, Func<TSource, TResult> map)
+        {
+            return map(source);
+        }
     }
 }

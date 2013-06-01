@@ -154,14 +154,39 @@ namespace Bender
             return type.GetConstructor(arguments) != null;
         }
 
-        public static bool IsList(this Type type)
+        public static bool IsGenericDictionaryInterface(this Type type)
         {
-            return type.GetInterfaces().Any(x => x.IsListInterface());
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>);
+        }
+
+        public static bool IsGenericDictionaryType(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
+        }
+
+        public static bool IsGenericDictionary(this Type type)
+        {
+            return type.IsGenericDictionaryInterface() || type.IsGenericDictionaryType();
+        }
+
+        public static bool IsGenericListImplementation(this Type type)
+        {
+            return type.GetInterfaces().Any(x => x.IsGenericListInterface());
+        }
+
+        public static bool IsGenericListInterface(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>);
         }
 
         public static bool IsListInterface(this Type type)
         {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IList<>);
+            return type == typeof(IList);
+        }
+
+        public static bool IsGenericList(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
         }
 
         public static bool IsEnumerable(this Type type)
@@ -174,7 +199,12 @@ namespace Bender
             return type == typeof(IEnumerable);
         }
 
-        public static bool IsGenericEnumerable(this Type type)
+        public static bool IsGenericEnumerableOrList(this Type type)
+        {
+            return type.IsGenericEnumerableInterface() || type.IsGenericListInterface() || type.IsGenericList();
+        }
+
+        public static bool IsGenericEnumerableImplementation(this Type type)
         {
             return type.IsGenericEnumerableInterface() || 
                 type.GetInterfaces().Any(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEnumerable<>));
@@ -192,27 +222,60 @@ namespace Bender
             return enumerableInterface == null ? null : enumerableInterface.GetGenericArguments()[0];
         }
 
+        public class DictionaryTypes
+        {
+            public Type Item { get; set; }
+            public Type Key { get; set; }
+            public Type Value { get; set; }
+        }
+
+        public static DictionaryTypes GetGenericDictionaryTypes(this Type type)
+        {
+            var dictionaryInterface = type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IDictionary<,>) ? type :
+                    type.GetInterfaces().FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IDictionary<,>));
+            return dictionaryInterface == null ? null : dictionaryInterface.GetGenericArguments()
+                .Map(x => new DictionaryTypes { Item = typeof(KeyValuePair<,>).MakeGenericType(x[0], x[1]), Key = x[0], Value = x[1]});
+        }
+
         public static bool IsClrCollectionType(this Type type)
         {
             return type.Namespace.StartsWith("System.Collections.") || type.Namespace == "System.Collections";
         }
 
-        public static IList CreateListOfEnumerableType(this Type type)
+        public static IDictionary CreateDictionaryFromDictionaryType(this Type type)
+        {
+            if (type.IsInterface)
+            {
+                var dictionaryTypes = type.GetGenericDictionaryTypes();
+                if (dictionaryTypes == null) throw new ArgumentException("Interface '{0}' is not or does not inherit from IDictionary<TKey, TValue>.".ToFormat(type), "type");
+                return (IDictionary)Activator.CreateInstance(typeof(Dictionary<,>).MakeGenericType(dictionaryTypes.Key, dictionaryTypes.Value));
+            }
+            if (type.IsGenericDictionaryType()) return (IDictionary)Activator.CreateInstance(type);
+            throw new ArgumentException("Type '{0}' is not a Dictionary<TKey, TValue>.".ToFormat(type), "type");
+        }
+
+        public static IList CreateListFromEnumerableType(this Type type)
         {
             if (type.IsInterface)
             {
                 var itemType = type.GetGenericEnumerableType();
-                if (itemType != null) return (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
-                throw new ArgumentException("Interface {0} does not inherit from IEnumerable<T>.".ToFormat(type), "type");
+                if (itemType == null) throw new ArgumentException("Interface '{0}' is not or does not inherit from IEnumerable<T>.".ToFormat(type), "type");
+                return (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(itemType));
             }
             if (type.IsArray) return (IList)Activator.CreateInstance(typeof(List<>).MakeGenericType(type.GetElementType())); 
-            if (type.IsList()) return (IList)Activator.CreateInstance(type);
-            throw new ArgumentException("Type {0} does not implement IList.".ToFormat(type), "type");
+            if (type.IsGenericListImplementation()) return (IList)Activator.CreateInstance(type);
+            throw new ArgumentException("Type '{0}' is not an array or List<T>.".ToFormat(type), "type");
         }
 
         public static T ParseEnum<T>(this string value) where T : struct
         {
             return (T)Enum.Parse(typeof (T), value, true);
+        }
+
+        public static Type TypeCoalesce(this object instance, params Type[] types)
+        {
+            var type = types.FirstOrDefault(x => x != null);
+            return (type == typeof (object) || type == null) && instance != null ? instance.GetType() : type;
         }
     }
 }

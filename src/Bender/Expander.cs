@@ -24,8 +24,8 @@ namespace Bender
             {
                 var propertyType = property.PropertyType;
 
-                if ((propertyType.IsList() && !propertyType.IsArray) || propertyType.IsListInterface()) 
-                    property.SetValue(@object, propertyType.CreateListOfEnumerableType(), null);
+                if ((propertyType.IsGenericListImplementation() && !propertyType.IsArray) || propertyType.IsGenericListInterface()) 
+                    property.SetValue(@object, propertyType.CreateListFromEnumerableType(), null);
                 else if (propertyType.IsClass && !propertyType.IsBclType() && (propertyType.HasParameterlessConstructor() ||
                     propertyType.HasConstructor(@object.GetType())))
                 {

@@ -39,8 +39,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("CustomElementAndItemNameListProperty").Element("Simple").Elements("Item");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -56,8 +56,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("CustomElementAndItemNameListProperty").Element("Complex").Elements("Item");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         [Test]
@@ -74,8 +74,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("CustomElementAndItemNameListProperty").Element("InterfaceComplex").Elements("Item");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         [Test]
@@ -92,8 +92,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("CustomElementAndItemNameListProperty").Element("InheritedComplex").Elements("Item");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         // XmlTypeAttribute
@@ -132,7 +132,7 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("Type").Elements("ComplexType");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
+            root.Second().Element("Value").Value.ShouldEqual("2");
         }
 
         [XmlType("Item")]
@@ -155,8 +155,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ComplexTypeCustomItemTypeNameListProperty").Element("Items").Elements("Item");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         [Test]
@@ -170,8 +170,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ArrayOfItem").Elements("Item");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         // XmlRootAttribute
@@ -202,7 +202,7 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("Root").Elements("ComplexType");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
+            root.Second().Element("Value").Value.ShouldEqual("2");
         }
 
         // XmlElementAttribute

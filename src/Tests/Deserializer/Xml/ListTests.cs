@@ -132,8 +132,8 @@ namespace Tests.Deserializer.Xml
             var result = Bender.Deserializer.Create().DeserializeXml<IEnumerable<int>>(xml);
             result.Count().ShouldEqual(3);
             result.First().ShouldEqual(1);
-            result.Skip(1).First().ShouldEqual(2);
-            result.Skip(2).First().ShouldEqual(3);
+            result.Second().ShouldEqual(2);
+            result.Third().ShouldEqual(3);
         }
 
         [Test]
@@ -285,8 +285,8 @@ namespace Tests.Deserializer.Xml
             var result = Bender.Deserializer.Create().DeserializeXml<ListProperty>(xml).GenericEnumerableItems;
             result.Count().ShouldEqual(3);
             result.First().ShouldEqual(1);
-            result.Skip(1).First().ShouldEqual(2);
-            result.Skip(2).First().ShouldEqual(3);
+            result.Second().ShouldEqual(2);
+            result.Third().ShouldEqual(3);
         }
 
         [Test]

@@ -73,8 +73,8 @@ namespace Tests.Serializer.Xml
                     } });
             var results = xml.ParseXml().Element("CustomWriter").Element("ListOfComplexTypes").Elements("ComplexType");
             results.First().Value.ShouldEqual("[1]");
-            results.Skip(1).First().Value.ShouldEqual("[2]");
-            results.Skip(2).First().Value.ShouldEqual("[3]"); 
+            results.Second().Value.ShouldEqual("[2]");
+            results.Third().Value.ShouldEqual("[3]"); 
         }
 
         [Test]
@@ -84,8 +84,8 @@ namespace Tests.Serializer.Xml
                 .SerializeXml(new CustomWriter { ListOfSimpleTypes = new List<int> { 1, 2, 3 } });
             var results = xml.ParseXml().Element("CustomWriter").Element("ListOfSimpleTypes").Elements("Int32");
             results.First().Value.ShouldEqual("[1]");
-            results.Skip(1).First().Value.ShouldEqual("[2]");
-            results.Skip(2).First().Value.ShouldEqual("[3]"); 
+            results.Second().Value.ShouldEqual("[2]");
+            results.Third().Value.ShouldEqual("[3]"); 
         }
 
         [Test]
@@ -119,8 +119,8 @@ namespace Tests.Serializer.Xml
                     } });
             var results = xml.ParseXml().Element("CustomWriter").Element("ListInterfaceOfComplexTypes").Elements("ComplexType");
             results.First().Value.ShouldEqual("[1]");
-            results.Skip(1).First().Value.ShouldEqual("[2]");
-            results.Skip(2).First().Value.ShouldEqual("[3]"); 
+            results.Second().Value.ShouldEqual("[2]");
+            results.Third().Value.ShouldEqual("[3]"); 
         }
 
         [Test]
@@ -130,8 +130,8 @@ namespace Tests.Serializer.Xml
                 .SerializeXml(new CustomWriter { ListInterfaceOfSimpleTypes = new List<int> { 1, 2, 3 } });
             var results = xml.ParseXml().Element("CustomWriter").Element("ListInterfaceOfSimpleTypes").Elements("Int32");
             results.First().Value.ShouldEqual("[1]");
-            results.Skip(1).First().Value.ShouldEqual("[2]");
-            results.Skip(2).First().Value.ShouldEqual("[3]"); 
+            results.Second().Value.ShouldEqual("[2]");
+            results.Third().Value.ShouldEqual("[3]"); 
         }
 
         // Node writers

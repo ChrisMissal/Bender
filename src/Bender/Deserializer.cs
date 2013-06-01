@@ -108,7 +108,7 @@ namespace Bender
 
         private object Traverse(Format format, Type type, ValueNode node, object parent = null, PropertyInfo sourceProperty = null)
         {
-            if (format == Format.Xml && (parent == null || parent.GetType().IsGenericEnumerable()))
+            if (format == Format.Xml && (parent == null || parent.GetType().IsGenericEnumerableImplementation()))
                 ValidateTypeElementName(type, node.XmlElement, parent == null, sourceProperty);
 
             if (_options.Readers.ContainsKey(type))
@@ -136,9 +136,23 @@ namespace Bender
             if (node.NodeType == NodeType.XmlAttribute)
                 throw new DeserializeException(sourceProperty, node.Object, format, "Cannot deserialize attribute value as complex type.");
 
-            if (type.IsGenericEnumerable())
+            if (type.IsGenericDictionary())
             {
-                var list = type.CreateListOfEnumerableType();
+                var dictionary = type.CreateDictionaryFromDictionaryType();
+                var dictionaryTypes = type.GetGenericDictionaryTypes();
+                foreach (var element in node.XmlElement.Elements())
+                {
+                    if (format == Format.Xml) ValidateTypeElementName(dictionaryTypes.Item, element, parent == null, sourceProperty);
+                    dictionary.Add(
+                        Traverse(format, dictionaryTypes.Key, new ValueNode(element.Element("Key"), format), parent, sourceProperty),
+                        Traverse(format, dictionaryTypes.Value, new ValueNode(element.Element("Value"), format), parent, sourceProperty));
+                }
+                return dictionary;
+            }
+
+            if (type.IsGenericEnumerableOrList() || type.IsArray)
+            {
+                var list = type.CreateListFromEnumerableType();
                 var itemType = type.GetGenericEnumerableType();
                 node.XmlElement.Elements().ForEach(x => list.Add(Traverse(format, itemType, new ValueNode(x, format), parent, sourceProperty)));
                 return type.IsArray ? list.ToArray(itemType) : list;

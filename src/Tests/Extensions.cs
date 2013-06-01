@@ -11,6 +11,16 @@ namespace Tests
 {
     public static class Extensions
     {
+        public static T Second<T>(this IEnumerable<T> items)
+        {
+            return items.Skip(1).First();
+        }
+
+        public static T Third<T>(this IEnumerable<T> items)
+        {
+            return items.Skip(2).First();
+        }
+
         public static XDocument ParseJson(this string json)
         {
             return XDocument.Load(JsonReaderWriterFactory.CreateJsonReader(new MemoryStream(Encoding.UTF8.GetBytes(json)), new XmlDictionaryReaderQuotas()));

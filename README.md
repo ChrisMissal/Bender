@@ -1,7 +1,7 @@
 Bender [![Build Status](https://travis-ci.org/mikeobrien/Bender.png)](https://travis-ci.org/mikeobrien/Bender)
 =============
 
-Bender is a simple xml and json de/serialization library for .NET. Unlike the `JavaScriptSerializer`, `XmlSerializer` and `DataContractSerializer`, Bender gives you complete control over how values are de/serialized. Bender is ~%10 faster than the `XmlSerializer` and `JavaScriptSerializer`.
+Bender is a simple xml and json serialization library for .NET and Mono. Unlike the `JavaScriptSerializer`, `XmlSerializer` and `DataContractSerializer`, Bender gives you complete control over how values are serialized. Bender is ~%10 faster than the `XmlSerializer` and `JavaScriptSerializer`.
 
 Install
 ------------
@@ -41,9 +41,9 @@ var serializer = new Serializer(new Options {...});
 var deserializer = new Deserializer(new Options {...});
 ```
 
-#### Overriding de/serialization
+#### Overriding serialization
 
-To override de/serialization add a reader or writer:
+To override serialization add a reader or writer:
 
 ```csharp
 var serializer = Serializer.Create(x => x
@@ -57,7 +57,7 @@ Both readers and writers are passed a context that contains the current `Options
 
 Note: the `byte[]` reader/writer shown above is automatically added by default so you get that behavior out of the box.
 
-Bender allows you to override nullable and non-nullable type de/serialization separately if you want to have fine grained control, for example:
+Bender allows you to override nullable and non-nullable type serialization separately if you want to have fine grained control, for example:
 
 ```csharp
 var serializer = Serializer.Create(x => x
@@ -102,9 +102,9 @@ Any errors resulting from the reader will be wrapped in a `ValueParseException` 
 
 - Bender supports the `XmlRootAttribute`, `XmlTypeAttribute`, `XmlElementAttribute`, `XmlAttributeAttribute`, `XmlArrayAttribute` and `XmlArrayItemAttribute` to override element naming as the `XmlSerializer` does. 
 - Bender supports the `XmlIgnoreAttribute` to ignore properties as the `XmlSerializer` does. 
-- Bender will de/serialize nullable types and enumerations. 
+- Bender will serialize nullable types and enumerations. 
 - Bender will pass the parent object to into the constructor of the child object on deserialization if a constructor is defined with a single argument of the parent type.
-- Bender de/serializes the following basic types out of the box: `String`, `Char`, `Boolean`, `SByte`, `Byte`, `Int16`, `UInt16`, `Int32`, `UInt32`, `Int64`, `UInt64`, `Single`, `Double`, `Decimal`, `DateTime`, `Guid`, `TimeSpan`, `IEnumerable<T>`, `List<T>`, `IList<T>`, `Array`, `ArrayList` (Serialization only), `IEnumerable` (Serialization only), `byte[]` (As base64), `MailAddress`, `Version`, `IPAddress` and `Uri`.
+- Bender serializes the following basic types out of the box: `String`, `Char`, `Boolean`, `SByte`, `Byte`, `Int16`, `UInt16`, `Int32`, `UInt32`, `Int64`, `UInt64`, `Single`, `Double`, `Decimal`, `DateTime`, `Guid`, `TimeSpan`, `IEnumerable<T>`, `List<T>`, `IList<T>`, `Array`, `ArrayList` (Serialization only), `IEnumerable` (Serialization only), `byte[]` (As base64), `MailAddress`, `Version`, `IPAddress` and `Uri`.
 - Bender will automatically deserialize values in either attributes or elements. By default values are serialized as elements but this can be changed to attributes in configuration.
 
 Bender also includes a helper for building out object graphs. This can be usefull for creating larger object graphs for tests:

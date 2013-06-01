@@ -24,7 +24,7 @@ namespace Tests.Serializer.Xml
             root.ShouldNotBeNull();
             root.Count().ShouldEqual(2);
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2"); 
+            root.Second().Element("Value").Value.ShouldEqual("2"); 
         }
 
         // Lists
@@ -39,7 +39,7 @@ namespace Tests.Serializer.Xml
             root.ShouldNotBeNull();
             root.Count().ShouldEqual(2);
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2"); 
+            root.Second().Element("Value").Value.ShouldEqual("2"); 
         }
 
         [Test]
@@ -52,8 +52,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("InheritedListOfComplexTypes").Elements("ComplexType");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Tests.Serializer.Xml
             root.ShouldNotBeNull();
             root.Count().ShouldEqual(2);
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
+            root.Second().Element("Value").Value.ShouldEqual("2");
         }
 
         [Test]
@@ -77,7 +77,7 @@ namespace Tests.Serializer.Xml
             root.ShouldNotBeNull();
             root.Count().ShouldEqual(2);
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
+            root.Second().Value.ShouldEqual("2");
         }
 
         [Test]
@@ -88,7 +88,7 @@ namespace Tests.Serializer.Xml
             root.ShouldNotBeNull();
             root.Count().ShouldEqual(2);
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
+            root.Second().Value.ShouldEqual("2");
         }
 
         [Test]
@@ -98,8 +98,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("InheritedListOfSimpleTypes").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -109,8 +109,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ArrayOfInt32").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -120,8 +120,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ArrayOfInt32").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -131,8 +131,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ArrayOfObject").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -142,8 +142,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ArrayOfInt32").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         // List properties
@@ -174,8 +174,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("ComplexItems").Elements("ComplexType");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         [Test]
@@ -185,8 +185,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("SimpleItems").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -199,8 +199,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("InheritedSimpleItems").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -213,8 +213,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("InheritedComplexItems").Elements("ComplexType");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         [Test]
@@ -230,8 +230,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("InterfaceComplexItems").Elements("ComplexType");
             root.ShouldNotBeNull();
             root.First().Element("Value").Value.ShouldEqual("1");
-            root.Skip(1).First().Element("Value").Value.ShouldEqual("2");
-            root.Skip(2).First().Element("Value").Value.ShouldEqual("3");
+            root.Second().Element("Value").Value.ShouldEqual("2");
+            root.Third().Element("Value").Value.ShouldEqual("3");
         }
 
         [Test]
@@ -241,8 +241,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("GenericEnumerableItems").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -252,8 +252,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("EnumerableItems").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -263,8 +263,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("ArrayListItems").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         [Test]
@@ -274,8 +274,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ListProperty").Element("ArrayItems").Elements("Int32");
             root.ShouldNotBeNull();
             root.First().Value.ShouldEqual("1");
-            root.Skip(1).First().Value.ShouldEqual("2");
-            root.Skip(2).First().Value.ShouldEqual("3");
+            root.Second().Value.ShouldEqual("2");
+            root.Third().Value.ShouldEqual("3");
         }
 
         // Generic list items
@@ -303,8 +303,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ComplexGenericTypeProperty").Element("Items").Elements("ComplexGenericTypeOfStringInt32");
             root.First().Element("Value1").Value.ShouldEqual("oh");
             root.First().Element("Value2").Value.ShouldEqual("5");
-            root.Skip(1).First().Element("Value1").Value.ShouldEqual("hai");
-            root.Skip(1).First().Element("Value2").Value.ShouldEqual("6");
+            root.Second().Element("Value1").Value.ShouldEqual("hai");
+            root.Second().Element("Value2").Value.ShouldEqual("6");
         }
 
         [Test]
@@ -316,8 +316,8 @@ namespace Tests.Serializer.Xml
             var root = xml.ParseXml().Element("ArrayOfComplexGenericTypeOfStringInt32").Elements("ComplexGenericTypeOfStringInt32");
             root.First().Element("Value1").Value.ShouldEqual("oh");
             root.First().Element("Value2").Value.ShouldEqual("5");
-            root.Skip(1).First().Element("Value1").Value.ShouldEqual("hai");
-            root.Skip(1).First().Element("Value2").Value.ShouldEqual("6");
+            root.Second().Element("Value1").Value.ShouldEqual("hai");
+            root.Second().Element("Value2").Value.ShouldEqual("6");
         }
     }
 }

@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deserializer\Xml\DictionaryTests.cs" />
     <Compile Include="Deserializer\Xml\LoadTests.cs" />
     <Compile Include="Deserializer\Json\LoadTests.cs" />
     <Compile Include="Deserializer\Json\ListTests.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Serializer\Json\TraversalTests.cs" />
     <Compile Include="Serializer\Json\WriterTests.cs" />
     <Compile Include="Serializer\Json\XmlAttributeTests.cs" />
+    <Compile Include="Serializer\Xml\DictionaryTests.cs" />
     <Compile Include="Serializer\Xml\SaveTests.cs" />
     <Compile Include="Serializer\Xml\NamespaceTests.cs" />
     <Compile Include="Serializer\Xml\FormattingTests.cs" />

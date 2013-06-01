@@ -38,7 +38,7 @@ namespace Bender
             if (xmlType != null && xmlType.TypeName != null) return xmlType.TypeName;
             const string defaultArrayNameFormat = "ArrayOf{0}";
             if (type.IsArray) return (listNameFormat ?? defaultArrayNameFormat).ToFormat(type.GetElementType().GetXmlName());
-            if (type.IsGenericEnumerable() && type.IsClrCollectionType()) return (listNameFormat ?? defaultArrayNameFormat).ToFormat(type.GetGenericEnumerableType().GetXmlName());
+            if (type.IsGenericEnumerableImplementation() && type.IsClrCollectionType()) return (listNameFormat ?? defaultArrayNameFormat).ToFormat(type.GetGenericEnumerableType().GetXmlName());
             if (type.IsEnumerable() && type.IsClrCollectionType()) return (listNameFormat ?? defaultArrayNameFormat).ToFormat("Object");
             if (type.IsGenericType)
             {

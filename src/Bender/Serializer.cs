@@ -78,7 +78,7 @@ namespace Bender
 
         private XObject Traverse(Format format, object source, LinkedNode<object> ancestors, PropertyInfo sourceProperty = null, Type itemType = null)
         {
-            var type = itemType ?? (sourceProperty == null ? source.GetType() : sourceProperty.PropertyType);
+            var type = source.TypeCoalesce(itemType, sourceProperty != null ? sourceProperty.PropertyType : null);
 
             var name = format == Format.Xml ? GetXmlNodeName(type, ancestors, sourceProperty, itemType) :
                 GetJsonNodeName(ancestors, sourceProperty, itemType);
