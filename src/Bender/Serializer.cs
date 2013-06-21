@@ -9,6 +9,45 @@ using System.Xml.Serialization;
 
 namespace Bender
 {
+    public interface INodeWriter
+    {
+        void WriteSimpleType(string value, Type type);
+    }
+
+    public class XmlNodeWriter : INodeWriter 
+    {
+        private readonly Options _options;
+        private readonly XDocument _document;
+
+        public XmlNodeWriter(Options options)
+        {
+            _options = options;
+            _document = new XDocument();
+        }
+
+        public void WriteSimpleType(string value, Type type)
+        {
+            
+        }
+    }
+
+    public class JsonNodeWriter : INodeWriter
+    {
+        private readonly Options _options;
+        private readonly XDocument _document;
+
+        public JsonNodeWriter(Options options)
+        {
+            _options = options;
+            _document = new XDocument();
+        }
+
+        public void WriteSimpleType(string value, Type type)
+        {
+
+        }
+    }
+
     public class Serializer
     {
         private readonly Options _options;
@@ -73,10 +112,11 @@ namespace Bender
         private XDocument SerializeXmlAsDocument(object source, Format format)
         {
             if (source == null) throw new ArgumentNullException("source", "Cannot serialize a null reference.");
-            return new XDocument(Traverse(format, source, LinkedNode<object>.Create(source)));
+            var writer = format == Format.Json ? (INodeWriter)new JsonNodeWriter(_options) : new XmlNodeWriter(_options);
+            return new XDocument(Traverse(writer, format, source, LinkedNode<object>.Create(source)));
         }
 
-        private XObject Traverse(Format format, object source, LinkedNode<object> ancestors, PropertyInfo sourceProperty = null, Type itemType = null)
+        private XObject Traverse(INodeWriter writer, Format format, object source, LinkedNode<object> ancestors, PropertyInfo sourceProperty = null, Type itemType = null)
         {
             var type = source.TypeCoalesce(itemType, sourceProperty != null ? sourceProperty.PropertyType : null);
 
@@ -116,7 +156,7 @@ namespace Bender
             {
                 var listItemType = type.GetGenericEnumerableType();
                 node = createElement(null).WithChildren(source.AsEnumerable().Select(x =>
-                    Traverse(format, x, ancestors.Add(source), sourceProperty, listItemType ?? x.GetType())));
+                    Traverse(writer, format, x, ancestors.Add(source), sourceProperty, listItemType ?? x.GetType())));
                 valueNode = new ValueNode(node, format);
                 if (format == Format.Json) valueNode.JsonField.DataType = JsonDataType.Array;
             }
@@ -129,7 +169,7 @@ namespace Bender
                 {
                     var propertyValue = property.GetValue(source, null);
                     if ((propertyValue == null && _options.ExcludeNullValues) || ancestors.Any(propertyValue)) continue;
-                    ((XElement)node).Add(Traverse(format, propertyValue, ancestors.Add(propertyValue), property));
+                    ((XElement)node).Add(Traverse(writer, format, propertyValue, ancestors.Add(propertyValue), property));
                 }
             }
 
